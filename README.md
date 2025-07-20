@@ -1,48 +1,47 @@
-# Projek-UAS-Pemrograman-Web-2
+# Berikut ini adalah contoh sederhana "Project To-Do List" menggunakan CodeIgniter 4 (bisa juga disesuaikan untuk CI3 jika perlu). Proyek ini memungkinkan pengguna menambahkan, menandai selesai, dan menghapus tugas.
 
-Berikut ini adalah contoh project To-Do List sederhana menggunakan CodeIgniter 4 (CI4) — framework PHP yang populer dan ringan. Proyek ini mencakup fitur dasar: menambahkan, menampilkan, menandai selesai, dan menghapus tugas.
+# 1.Buat Database dan Tabel
 
-# Struktur Proyek
+CREATE DATABASE todo_db;
 
-app/
-├── Controllers/
-│   └── Todo.php
-├── Models/
-│   └── TodoModel.php
-├── Views/
-│   └── todo/
-│       ├── index.php
-├── Config/
-│   └── Routes.php
-public/
-├── index.php
+USE todo_db;
 
-# 1.Buat Tabel Database
-   
 CREATE TABLE todos (
     id INT AUTO_INCREMENT PRIMARY KEY,
     task VARCHAR(255) NOT NULL,
     is_done TINYINT(1) DEFAULT 0,
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-# 2.Model (app/Models/TodoModel.php)
+# 2.Konfigurasi Database di CodeIgniter
 
-<?php namespace App\Models;
+Edit file .env:
 
+database.default.hostname = localhost
+database.default.database = todo_db
+database.default.username = root
+database.default.password =
+database.default.DBDriver = MySQLi
+
+# 3.Buat Model:TodoModel.php
+
+<?php
+
+namespace App\Models;
 use CodeIgniter\Model;
 
 class TodoModel extends Model
 {
     protected $table = 'todos';
     protected $primaryKey = 'id';
-    protected $allowedFields = ['task', 'is_done'];
+    protected $allowedFields = ['task', 'is_done', 'created_at'];
 }
 
-# 3.Controller (app/Controllers/Todo.php)
+# 4.Buat Controller:Todo.php
 
-<?php namespace App\Controllers;
+<?php
 
+namespace App\Controllers;
 use App\Models\TodoModel;
 
 class Todo extends BaseController
@@ -51,49 +50,49 @@ class Todo extends BaseController
     {
         $model = new TodoModel();
         $data['todos'] = $model->findAll();
-        return view('todo/index', $data);
+        return view('todo_view', $data);
     }
 
     public function add()
     {
         $model = new TodoModel();
-        $model->save(['task' => $this->request->getPost('task')]);
-        return redirect()->to('/todo');
-    }
-
-    public function delete($id)
-    {
-        $model = new TodoModel();
-        $model->delete($id);
-        return redirect()->to('/todo');
+        $model->save([
+            'task' => $this->request->getPost('task')
+        ]);
+        return redirect()->to('/');
     }
 
     public function done($id)
     {
         $model = new TodoModel();
         $model->update($id, ['is_done' => 1]);
-        return redirect()->to('/todo');
+        return redirect()->to('/');
+    }
+
+    public function delete($id)
+    {
+        $model = new TodoModel();
+        $model->delete($id);
+        return redirect()->to('/');
     }
 }
 
-# 4.View (app/Views/todo/index.php)
+# 5.Buat View:todo_view.php di app/Views
 
 <!DOCTYPE html>
-<html lang="id">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <title>To-Do List - CodeIgniter</title>
+    <title>To-Do List</title>
 </head>
 <body>
     <h1>To-Do List</h1>
-
-    <form action="/todo/add" method="post">
-        <input type="text" name="task" placeholder="Tugas baru..." required>
+    <form method="post" action="/todo/add">
+        <input type="text" name="task" placeholder="Tugas baru" required>
         <button type="submit">Tambah</button>
     </form>
 
     <ul>
-        <?php foreach($todos as $todo): ?>
+        <?php foreach ($todos as $todo): ?>
             <li>
                 <?= $todo['is_done'] ? '<s>' . esc($todo['task']) . '</s>' : esc($todo['task']) ?>
                 <?php if (!$todo['is_done']): ?>
@@ -105,20 +104,3 @@ class Todo extends BaseController
     </ul>
 </body>
 </html>
-
-# 5.Routing (app/Config/Routes.php)
-
-$routes->get('/todo', 'Todo::index');
-$routes->post('/todo/add', 'Todo::add');
-$routes->get('/todo/delete/(:num)', 'Todo::delete/$1');
-$routes->get('/todo/done/(:num)', 'Todo::done/$1');
-
-# Jalankan Proyek
-
-Pastikan koneksi database diatur di .env atau Config/Database.php
-
-Jalankan server lokal dengan:
-
-php spark serve
-
-Akses di browser: http://localhost:8080/todo
