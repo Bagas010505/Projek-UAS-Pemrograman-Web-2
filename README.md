@@ -1,4 +1,4 @@
-# Projek pemograman web 2 ToDoList
+# Projek Pemrograman Web 2 To Do List
 
 |Nama|NIM|Kelas|Mata Kuliah|
 |----|---|-----|------|
