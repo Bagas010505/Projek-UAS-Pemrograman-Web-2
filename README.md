@@ -3,10 +3,10 @@
 |Nama|NIM|Kelas|Mata Kuliah|
 |----|---|-----|------|
 |**Akbar Rizky Ramadhan**|**312310696**|**TI.23.A6**|**Pemrograman Web 2**|
-|**Annisa Saidah Mubarokah**|**312310696**|**TI.23.A6**|**Pemrograman Web 2**|
-|**Arbi Bagaskara Putra**|**312310696**|**TI.23.A6**|**Pemrograman Web 2**|
-|**Bagas Prihantoro Putra**|**312310696**|**TI.23.A6**|**Pemrograman Web 2**|
-|**Sekar Ayu Aulia Nazwa**|**312310696**|**TI.23.A6**|**Pemrograman Web 2**|
+|**Annisa Saidah Mubarokah**|**312310631**|**TI.23.A6**|**Pemrograman Web 2**|
+|**Arbi Bagaskara Putra**|**312310671**|**TI.23.A6**|**Pemrograman Web 2**|
+|**Bagas Prihantoro Putra**|**312310599**|**TI.23.A6**|**Pemrograman Web 2**|
+|**Sekar Ayu Aulia Nazwa**|**312310654**|**TI.23.A6**|**Pemrograman Web 2**|
 
 # Halaman Utama
 
